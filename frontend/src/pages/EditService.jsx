@@ -146,10 +146,10 @@ const EditService = () => {
                 required
               >
                 <option value="spa">Spa</option>
-                <option value="wellness">Wellness</option>
-                <option value="recreation">Recreation</option>
                 <option value="dining">Dining</option>
-                <option value="entertainment">Entertainment</option>
+                <option value="activities">Activities</option>
+                <option value="transportation">Transportation</option>
+                <option value="other">Other</option>
               </select>
             </div>
             

@@ -14,12 +14,16 @@ const RoomSchema = new mongoose.Schema({
   type: {
     type: String,
     required: [true, 'Please specify room type'],
-    enum: ['single', 'double', 'luxury'],
+    enum: {
+      values: ['single', 'double', 'luxury'],
+      message: 'Please select one of the available room types: single, double, or luxury.'
+    },
     default: 'single'
   },
   pricePerNight: {
     type: Number,
-    required: [true, 'Please add price per night']
+    required: [true, 'Please add price per night'],
+    min: [0, 'Price cannot be negative']
   },
   capacity: {
     type: Number,
@@ -29,7 +33,10 @@ const RoomSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['available', 'booked', 'maintenance'],
+    enum: {
+      values: ['available', 'booked', 'maintenance'],
+      message: 'Please select one of the available statuses: available, booked, or maintenance.'
+    },
     default: 'available'
   },
   description: {

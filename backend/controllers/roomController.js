@@ -86,7 +86,10 @@ exports.getRooms = async (req, res, next) => {
       data: rooms
     })
   } catch (error) {
-    next(error)
+    res.status(500).json({
+      success: false,
+      error: 'An error occurred while fetching the list of rooms. Please try again later.'
+    })
   }
 }
 
@@ -100,7 +103,7 @@ exports.getRoom = async (req, res, next) => {
     if (!room) {
       return res.status(404).json({
         success: false,
-        error: 'Room not found'
+        error: 'Room not found.'
       })
     }
     
@@ -109,7 +112,10 @@ exports.getRoom = async (req, res, next) => {
       data: room
     })
   } catch (error) {
-    next(error)
+    res.status(500).json({
+      success: false,
+      error: 'An error occurred while fetching the room information. Please try again later.'
+    })
   }
 }
 
@@ -125,7 +131,27 @@ exports.createRoom = async (req, res, next) => {
       data: room
     })
   } catch (error) {
-    next(error)
+    // Handle duplicate key error
+    if (error.code === 11000) {
+      return res.status(400).json({
+        success: false,
+        error: 'A room with this number already exists. Please choose another room number.'
+      })
+    }
+
+    // Handle validation errors
+    if (error.name === 'ValidationError') {
+      const messages = Object.values(error.errors).map(val => val.message)
+      return res.status(400).json({
+        success: false,
+        error: messages.join('. ')
+      })
+    }
+
+    res.status(500).json({
+      success: false,
+      error: 'An error occurred while creating the room. Please check your input and try again.'
+    })
   }
 }
 
@@ -139,7 +165,7 @@ exports.updateRoom = async (req, res, next) => {
     if (!room) {
       return res.status(404).json({
         success: false,
-        error: 'Room not found'
+        error: 'Room not found.'
       })
     }
     
@@ -153,7 +179,27 @@ exports.updateRoom = async (req, res, next) => {
       data: room
     })
   } catch (error) {
-    next(error)
+    // Handle duplicate key error
+    if (error.code === 11000) {
+      return res.status(400).json({
+        success: false,
+        error: 'A room with this number already exists. Please choose another room number.'
+      })
+    }
+
+    // Handle validation errors
+    if (error.name === 'ValidationError') {
+      const messages = Object.values(error.errors).map(val => val.message)
+      return res.status(400).json({
+        success: false,
+        error: messages.join('. ')
+      })
+    }
+
+    res.status(500).json({
+      success: false,
+      error: 'An error occurred while updating the room. Please check your input and try again.'
+    })
   }
 }
 
@@ -167,7 +213,7 @@ exports.deleteRoom = async (req, res, next) => {
     if (!room) {
       return res.status(404).json({
         success: false,
-        error: 'Room not found'
+        error: 'Room not found.'
       })
     }
     
@@ -178,6 +224,9 @@ exports.deleteRoom = async (req, res, next) => {
       data: {}
     })
   } catch (error) {
-    next(error)
+    res.status(500).json({
+      success: false,
+      error: 'An error occurred while deleting the room. Please try again later.'
+    })
   }
 } 
