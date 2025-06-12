@@ -1,0 +1,18 @@
+{
+  "name": "resort-management-system",
+  "version": "1.0.0",
+  "description": "Resort Management System with React frontend and Node.js backend",
+  "scripts": {
+    "install-all": "npm install && cd frontend && npm install && cd ../backend && npm install",
+    "build": "cd frontend && npm run build",
+    "start-backend": "cd backend && npm start",
+    "dev-backend": "cd backend && npm run dev",
+    "dev-frontend": "cd frontend && npm run dev",
+    "dev": "concurrently \"npm run dev-backend\" \"npm run dev-frontend\"",
+    "start": "npm run build && npm run start-backend"
+  },
+  "dependencies": {
+    "concurrently": "^8.2.2",
+    "react-icons": "^5.5.0"
+  }
+}
